@@ -25,6 +25,9 @@ main:
 sleep1:
   nop ; extra pause
   adc #1
+  pha ; Push onto the stack
+  lda #0 ;Make sure it would break if it didn't actually push and pop
+  pla ; Pop off the stack back into accumulator
   cmp #10 ; Compare the accumulator with 100
   bne sleep1
 
@@ -36,6 +39,9 @@ sleep1:
 sleep2:
   nop ; extra pause
   adc #1
+  pha ; Push onto the stack
+  lda #0 ;Make sure it would break if it didn't actually push and pop
+  pla ; Pop off the stack back into accumulator
   cmp #10 ; Compare the accumulator with 100
   bne sleep2
 

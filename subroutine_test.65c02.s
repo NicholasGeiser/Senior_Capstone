@@ -21,27 +21,28 @@ main:
   lda #%11111111 ; Set pin 1 of port B to high (LED)
   sta OIRB
   ;Sleep
-  lda #0 ;loops and increases the lda each time to pause
-sleep1:
-  nop ; extra pause
-  adc #1
-  cmp #10 ; Compare the accumulator with 100
-  bne sleep1
+  jsr sleep
 
   ;turn LED off
   lda #%00000000 ; Set pin 1 of port B to low (LED)
   sta OIRB
   ;Sleep
-  lda #0 ;loops and increases the lda each time to pause
-sleep2:
-  nop ; extra pause
-  adc #1
-  cmp #10 ; Compare the accumulator with 100
-  bne sleep2
+  jsr sleep
 
   ;Repeat
   jmp main
 
+
+sleep:
+  pha ; preserve the accumulator
+  lda #0 ; reset the lda
+sleep_loop:
+  nop ; extra pause
+  adc #1
+  cmp #10 ; Compare the accumulator with 100
+  bne sleep_loop
+  pla ; pop the accumulator back off
+  rts ; return from subroutine
 
 dead_loop:
   jmp dead_loop
