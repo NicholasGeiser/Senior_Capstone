@@ -4,7 +4,9 @@ OIRA = $8001
 DDRB = $8002
 DDRA = $8003
 
-  .org $8048 ; ROM has an offset of 8024
+; note: stack is from 0x01FF to 0x0100
+
+  .org $8040 ; ROM has an offset of 8024
 
 init:
   ;Set data direction registers on 65c22
@@ -14,7 +16,6 @@ init:
   sta DDRA
   ;Ensure the outputs begin as off
   sta OIRB
-  sta OIRA
 
 main:
   ;Turn the LED on
@@ -28,7 +29,7 @@ sleep1:
   pha ; Push onto the stack
   lda #0 ;Make sure it would break if it didn't actually push and pop
   pla ; Pop off the stack back into accumulator
-  cmp #10 ; Compare the accumulator with 100
+  cmp #3 ; Compare the accumulator with 3
   bne sleep1
 
   ;turn LED off
@@ -42,7 +43,7 @@ sleep2:
   pha ; Push onto the stack
   lda #0 ;Make sure it would break if it didn't actually push and pop
   pla ; Pop off the stack back into accumulator
-  cmp #10 ; Compare the accumulator with 100
+  cmp #3 ; Compare the accumulator with 3
   bne sleep2
 
   ;Repeat

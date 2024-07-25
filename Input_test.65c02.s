@@ -19,11 +19,9 @@ init:
   lda #0
 
 main:
-  clc ; clear carry flag
-; should increment through the I/O
-  adc #1
+  lda OIRA ; read the inputs into the accumulator
   ;Turn the IO on
-  sta OIRB
+  sta OIRB ;present them on the output
   ;Sleep
   jsr sleep
 

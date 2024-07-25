@@ -22,14 +22,22 @@ main:
   clc ; clear carry flag
 ; should increment through the I/O
   adc #1
+  ; check lower bounds of RAM
+  sta $0 ; store in RAM at address 0
+  lda $0 ; load the data back into the accumulator
+  ; check upper bound of RAM
+  sta $7FF0
+  lda $7FF0
   ;Turn the IO on
   sta OIRB
-  ;Sleep
+  ;Sleep (shows stack working)
   jsr sleep
 
   ;Repeat
   jmp main
 
+;If the output increments, the RAM must work properly since the lowest
+;and highest bounds are checked along with the stack
 
 sleep:
   pha ; preserve the accumulator
