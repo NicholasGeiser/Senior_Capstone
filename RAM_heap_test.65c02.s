@@ -43,9 +43,18 @@ sleep:
   pha ; preserve the accumulator
   lda #0 ; reset the lda
 sleep_loop:
-  ;nop ; extra pause
+  nop ; extra pause
+  nop ; extra pause
+  nop ; extra pause
+  nop ; extra pause
+  nop ; extra pause
+  nop ; extra pause
+  nop ; extra pause
+  nop ; extra pause
+  nop ; extra pause
+  nop ; extra pause
   adc #1
-  cmp #2 ; Compare the accumulator with 2
+  cmp #100 ; Compare the accumulator with 2
   bne sleep_loop
   pla ; pop the accumulator back off
   rts ; return from subroutine

@@ -14,6 +14,8 @@ init:
 
     lda #%00001011 ; Interupts active low, no parity, no echo
     sta UART_CMD
+    
+    jsr new_line
 
 
 
@@ -29,11 +31,31 @@ read_char:
     sta UART_DATA
     jsr sleep
     lda #$a ;newline
+    sta UART_DATA
+    jsr sleep
+    jsr new_line
+    jmp main
 send:
     ;send
     sta UART_DATA
     jsr sleep
     jmp main
+
+;print the new line sequence
+new_line:
+    pha
+    ldx #0
+new_line_loop:
+    lda new_cmd_line,x ;Load a with x in string
+    cmp #0 ;If null (end of string)
+    beq new_line_end ;If done with string exit 
+    sta UART_DATA
+    jsr sleep ;Send char over UART_CMD
+    inx
+    jmp new_line_loop
+new_line_end:
+    pla
+    rts
 
 
 
@@ -51,6 +73,8 @@ sleep_loop:
 dead_loop:
   jmp dead_loop
 
+
+new_cmd_line: .asciiz "User: "
 
   .org $fffc ;65c02 fetches at 0xFFFC, store the address of init there to have the CPU set PC to the start of program
   .word init
